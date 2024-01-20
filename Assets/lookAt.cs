@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class lookAt : MonoBehaviour
 {
-    
+    public Transform target;
+
+    public float speed = 100f;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,11 +20,22 @@ public class lookAt : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("gay");
+
+        
+        target = collision.transform;
+        Debug.Log(target);
+        
+        lookAtWhenPressed(target);
+
+
     }
-    public void lookAtWhenPressed()
+    public void lookAtWhenPressed(Transform _target)
     {
-        transform.Translate(Vector2.zero, Space.World);
+        Vector2 direction = _target.position - transform.position;
+        float angle = Mathf.Atan2(direction.y,direction.x) * Mathf.Rad2Deg- 90;
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, speed);
+       
     }
     
 }
