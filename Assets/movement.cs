@@ -10,8 +10,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float rotationSpeed;
 
-    public PlayerAttack script;
-
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -20,8 +18,6 @@ public class PlayerMovement : MonoBehaviour
         Vector2 movementDirection = new Vector2(horizontalInput, verticalInput);
         float inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
         movementDirection.Normalize();
-
-
 
         if (CanMove())
         {
@@ -34,14 +30,14 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         
-
-        //
         
     }
     public bool CanMove()
     {
+        
         bool canattack = true;
-        if (script.attacking == true)
+
+        if (this.GetComponent<PlayerAttack>().attacking == true)
         {
             canattack = false;
         }

@@ -679,7 +679,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 7.77
   rotationSpeed: 1485.4
-  script: {fileID: 2129560760}
 --- !u!114 &2129560757
 MonoBehaviour:
   m_ObjectHideFlags: 0
