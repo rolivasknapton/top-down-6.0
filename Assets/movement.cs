@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
         
         bool canattack = true;
 
-        if (this.GetComponent<PlayerAttack>().attacking == true)
+        if (this.GetComponent<PlayerAttack>().Attacking == true)
         {
             canattack = false;
         }

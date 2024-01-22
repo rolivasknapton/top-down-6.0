@@ -7,7 +7,10 @@ public class PlayerAttack : MonoBehaviour
     private GameObject attackArea = default;
     
     
-    public bool attacking = false;
+    private bool attacking = false;
+
+    //lambda operator i think it makes a read only variable
+    public bool Attacking => attacking;
     [SerializeField]
     private float timeToAttack;
     private float timer = 0f;
