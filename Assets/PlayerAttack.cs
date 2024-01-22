@@ -6,9 +6,10 @@ public class PlayerAttack : MonoBehaviour
 {
     private GameObject attackArea = default;
     
-    private bool attacking = false;
-
-    private float timeToAttack = 0.25f;
+    
+    public bool attacking = false;
+    [SerializeField]
+    private float timeToAttack;
     private float timer = 0f;
     [SerializeField]
     private GameObject player;
@@ -27,6 +28,10 @@ public class PlayerAttack : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Attack();
+        }
+        if (Input.GetKeyDown(KeyCode.JoystickButton0))
         {
             Attack();
         }
