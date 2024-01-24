@@ -8,9 +8,10 @@ public class PlayerAttack : MonoBehaviour
     
     
     private bool attacking = false;
-
-    //lambda operator i think it makes a read only variable
+    
     public bool Attacking => attacking;
+    
+
     [SerializeField]
     private float timeToAttack;
     private float timer = 0f;
@@ -19,11 +20,13 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private GameObject sword_swipe;
     public Transform playerposition;
+    private bool canAttack;
 
     // Start is called before the first frame update
     void Start()
     {
-        attackArea = transform.GetChild(0).gameObject;
+        
+       attackArea = transform.GetChild(0).gameObject;
         
     }
 
@@ -55,9 +58,15 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack()
     {
+        if (attacking == false)
+        {
+            Instantiate(sword_swipe, playerposition);
+        }
         attacking = true;
         attackArea.SetActive(attacking);
-        Instantiate(sword_swipe, playerposition);
+        
+        
+        
 
     }
 }
