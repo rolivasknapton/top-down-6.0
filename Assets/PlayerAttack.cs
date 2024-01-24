@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     private GameObject attackArea = default;
+    public GameObject Attackarea => attackArea;
+    //private GameObject focusedAttackArea = default;
     
     
     private bool attacking = false;
@@ -27,6 +29,7 @@ public class PlayerAttack : MonoBehaviour
     {
         
        attackArea = transform.GetChild(0).gameObject;
+       //focusedAttackArea = transform.GetChild(1).gameObject;
         
     }
 
@@ -51,6 +54,7 @@ public class PlayerAttack : MonoBehaviour
                 timer = 0;
                 attacking = false;
                 attackArea.SetActive(attacking);
+                //focusedAttackArea.SetActive(attacking);
             }
 
         }
@@ -61,9 +65,12 @@ public class PlayerAttack : MonoBehaviour
         if (attacking == false)
         {
             Instantiate(sword_swipe, playerposition);
+            attacking = true;
+            attackArea.SetActive(attacking);
+            //focusedAttackArea.SetActive(attacking);
         }
-        attacking = true;
-        attackArea.SetActive(attacking);
+        
+        //focusedAttackArea.SetActive(attacking);
         
         
         
