@@ -6,6 +6,8 @@ public class Health : MonoBehaviour
 {
     [SerializeField] private int health = 100;
 
+    private bool invulnerable = false;
+    public bool Invulnerable => invulnerable;
     private int MAX_HEALTH = 100;
 
     // Update is called once per frame
@@ -21,20 +23,29 @@ public class Health : MonoBehaviour
             // Heal(10);
         }
     }
-
+    
     public void Damage(int amount)
     {
-        if (amount < 0)
+        if (invulnerable == false)
         {
-            throw new System.ArgumentOutOfRangeException("Cannot have negative Damage");
-        }
+            if (amount < 0)
+            {
+                throw new System.ArgumentOutOfRangeException("Cannot have negative Damage");
+            }
 
-        this.health -= amount;
+            this.health -= amount;
 
-        if (health <= 0)
-        {
-            Die();
+            if (health <= 0)
+            {
+                Die();
+            }
         }
+        
+    }
+    public void iFrameActivation(int time)
+    {
+
+        StartCoroutine(iFrames(time));
     }
 
     public void Heal(int amount)
@@ -60,5 +71,13 @@ public class Health : MonoBehaviour
     {
         Debug.Log("I am Dead!");
         Destroy(gameObject);
+    }
+    private IEnumerator iFrames(int time)
+    {
+        invulnerable = true;
+        this.GetComponent<SpriteRenderer>().color = new Color(255f, 0f, 0f, .5f);
+        yield return new WaitForSeconds(time);
+        invulnerable = false;
+        this.GetComponent<SpriteRenderer>().color = new Color(255f, 0f, 0f, 1f);
     }
 }

@@ -4,16 +4,34 @@ using UnityEngine;
 
 public class AttackArea : MonoBehaviour
 {
-    private int damage = 3;
-    private Transform target;
+    [SerializeField]
+    private int damage = 50;
+    //private Transform target;
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.GetComponent<Health>() != null)
+        if (collider.GetComponent<Health>() != null && collider.GetComponent<Health>().Invulnerable == false)
         {
-            target = collider.transform;
+
+            GameObject enemy = collider.gameObject;
+            //target = collider.transform;
             Health health = collider.GetComponent<Health>();
             health.Damage(damage);
-            //Debug.Log(target);
+            
+            
+            AttackDebuffs(enemy);
+            
         }
+    }
+    private void AttackDebuffs(GameObject enemyhit)
+    {
+        //IEnumerator Coroutine = enemyhit.GetComponent<EnemyFollow>().stunlocked(1);
+        //StartCoroutine(Coroutine);
+
+        var time = 1;
+        enemyhit.GetComponent<EnemyFollow>().Damaged(time);
+        enemyhit.GetComponent<Health>().iFrameActivation(time);
+
+
+
     }
 }

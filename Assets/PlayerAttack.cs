@@ -28,7 +28,7 @@ public class PlayerAttack : MonoBehaviour
     void Start()
     {
         
-       attackArea = transform.GetChild(0).gameObject;
+       //attackArea = transform.GetChild(0).gameObject;
        //focusedAttackArea = transform.GetChild(1).gameObject;
         
     }
@@ -53,7 +53,11 @@ public class PlayerAttack : MonoBehaviour
             {
                 timer = 0;
                 attacking = false;
-                attackArea.SetActive(attacking);
+                if(attackArea != null)
+                {
+                    attackArea.SetActive(attacking);
+                }
+                
                 //focusedAttackArea.SetActive(attacking);
             }
 
@@ -65,6 +69,7 @@ public class PlayerAttack : MonoBehaviour
         if (attacking == false)
         {
             Instantiate(sword_swipe, playerposition);
+            attackArea = transform.GetChild(0).gameObject;
             attacking = true;
             attackArea.SetActive(attacking);
             //focusedAttackArea.SetActive(attacking);

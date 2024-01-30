@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float speed;
 
-    [SerializeField]
+    
     private float rotationSpeed;
 
     void Update()
@@ -26,13 +26,19 @@ public class PlayerMovement : MonoBehaviour
             if (movementDirection != Vector2.zero)
             {
                 Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, movementDirection);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+
+                //look rotation dependant on the speed of modifier
+                //transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+                
+                //instantaneous
+                transform.rotation = Quaternion.Normalize( toRotation);
+
             }
         }
         
         
     }
-    public bool CanMove()
+    private bool CanMove()
     {
         
         bool canattack = true;
