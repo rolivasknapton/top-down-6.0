@@ -69,9 +69,9 @@ public class PlayerAttack : MonoBehaviour
         if (attacking == false)
         {
             Instantiate(sword_swipe, playerposition);
-            attackArea = transform.GetChild(0).gameObject;
+            //attackArea = transform.GetChild(0).gameObject;
             attacking = true;
-            attackArea.SetActive(attacking);
+            //attackArea.SetActive(attacking);
             //focusedAttackArea.SetActive(attacking);
         }
         

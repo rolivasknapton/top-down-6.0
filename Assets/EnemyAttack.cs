@@ -2,24 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackArea : MonoBehaviour
+public class EnemyAttack : MonoBehaviour
 {
     [SerializeField]
     private int damage = 50;
-    //private Transform target;
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.GetComponent<Health>() != null && collider.GetComponent<Health>().Invulnerable == false)
+        if (collider.gameObject.tag == "Player" && collider.GetComponentInParent<Health>().Invulnerable == false)
         {
-
+            Debug.Log("gay");
             GameObject enemy = collider.gameObject;
             //target = collider.transform;
-            Health health = collider.GetComponent<Health>();
+            Health health = collider.GetComponentInParent<Health>();
             health.Damage(damage);
-            
-            
+
+
             AttackDebuffs(enemy);
-            
+
         }
     }
     private void AttackDebuffs(GameObject enemyhit)
@@ -29,11 +28,11 @@ public class AttackArea : MonoBehaviour
 
         var time = 1;
         //enemyhit.GetComponent<EnemyFollow>().Damaged(time);
-        if(enemyhit.GetComponent<EnemyFollow>() != null)
+        if (enemyhit.GetComponentInParent<EnemyFollow>() != null)
         {
-            enemyhit.GetComponent<EnemyFollow>().Damaged(time);
+            enemyhit.GetComponentInParent<EnemyFollow>().Damaged(time);
         }
-        enemyhit.GetComponent<Health>().iFrameActivation(time);
+        enemyhit.GetComponentInParent<Health>().iFrameActivation(time);
 
 
 

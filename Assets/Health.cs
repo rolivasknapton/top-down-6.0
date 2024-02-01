@@ -76,8 +76,11 @@ public class Health : MonoBehaviour
     {
         invulnerable = true;
         this.GetComponent<SpriteRenderer>().color = new Color(255f, 0f, 0f, .5f);
+        this.GetComponent<CircleCollider2D>().enabled = false;
+        
         yield return new WaitForSeconds(time);
         invulnerable = false;
         this.GetComponent<SpriteRenderer>().color = new Color(255f, 0f, 0f, 1f);
+        this.GetComponent<CircleCollider2D>().enabled = true;
     }
 }
