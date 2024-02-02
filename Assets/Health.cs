@@ -75,12 +75,30 @@ public class Health : MonoBehaviour
     private IEnumerator iFrames(int time)
     {
         invulnerable = true;
-        this.GetComponent<SpriteRenderer>().color = new Color(255f, 0f, 0f, .5f);
-        this.GetComponent<CircleCollider2D>().enabled = false;
+        
+        if(this.gameObject.name != "Triangle")
+        {
+            this.GetComponent<SpriteRenderer>().color = new Color(255f, 0f, 0f, .5f);
+            //this.GetComponent<CircleCollider2D>().enabled = false;
+            this.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+        }
+        if (this.gameObject.name == "Triangle")
+        {
+            this.GetComponent<SpriteRenderer>().color = new Color(255, 255f, 255f, .5f);
+        }
+        
         
         yield return new WaitForSeconds(time);
         invulnerable = false;
-        this.GetComponent<SpriteRenderer>().color = new Color(255f, 0f, 0f, 1f);
-        this.GetComponent<CircleCollider2D>().enabled = true;
+        if (this.gameObject.name != "Triangle")
+        {
+            this.GetComponent<SpriteRenderer>().color = new Color(255f, 0f, 0f, 1f);
+        }
+        if (this.gameObject.name == "Triangle")
+        {
+            this.GetComponent<SpriteRenderer>().color = new Color(255, 255f, 255f, 1f);
+        }
+        //this.GetComponent<CircleCollider2D>().enabled = true;
+        this.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
     }
 }
