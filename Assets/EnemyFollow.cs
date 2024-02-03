@@ -25,7 +25,7 @@ public class EnemyFollow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        canMove = true;
+        canMove =true;
 
         thisEnemyPosition = this.transform;
 

@@ -10,6 +10,14 @@ public class Health : MonoBehaviour
     public bool Invulnerable => invulnerable;
     private int MAX_HEALTH = 100;
 
+    [SerializeField]
+    private bool canAttack;
+    public bool CanAttack => canAttack;
+    private void Start()
+    {
+        canAttack = true;
+        
+    }
     // Update is called once per frame
     void Update()
     {
@@ -42,7 +50,7 @@ public class Health : MonoBehaviour
         }
         
     }
-    public void iFrameActivation(int time)
+    public void iFrameActivation(float time)
     {
 
         StartCoroutine(iFrames(time));
@@ -72,7 +80,7 @@ public class Health : MonoBehaviour
         Debug.Log("I am Dead!");
         Destroy(gameObject);
     }
-    private IEnumerator iFrames(int time)
+    private IEnumerator iFrames(float time)
     {
         invulnerable = true;
         
@@ -81,6 +89,7 @@ public class Health : MonoBehaviour
             this.GetComponent<SpriteRenderer>().color = new Color(255f, 0f, 0f, .5f);
             //this.GetComponent<CircleCollider2D>().enabled = false;
             this.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+            canAttack = false;
         }
         if (this.gameObject.name == "Triangle")
         {
@@ -93,12 +102,14 @@ public class Health : MonoBehaviour
         if (this.gameObject.name != "Triangle")
         {
             this.GetComponent<SpriteRenderer>().color = new Color(255f, 0f, 0f, 1f);
+            this.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            canAttack = true;
         }
         if (this.gameObject.name == "Triangle")
         {
             this.GetComponent<SpriteRenderer>().color = new Color(255, 255f, 255f, 1f);
         }
         //this.GetComponent<CircleCollider2D>().enabled = true;
-        this.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        
     }
 }

@@ -41,8 +41,12 @@ public class PlayerAttack : MonoBehaviour
             Attack();
         }
         if (Input.GetKeyDown(KeyCode.JoystickButton0))
-        {
-            Attack();
+        { 
+            if (this.GetComponent<PlayerMovement>().CanMove())
+            {
+                Attack();
+            }
+            
         }
 
         if (attacking)

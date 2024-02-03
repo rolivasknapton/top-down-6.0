@@ -8,7 +8,8 @@ public class EnemyAttack : MonoBehaviour
     private int damage = 50;
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.tag == "Player" && collider.GetComponentInParent<Health>().Invulnerable == false)
+        
+        if (collider.gameObject.tag == "Player" && collider.GetComponentInParent<Health>().Invulnerable == false && this.GetComponentInParent<Health>().CanAttack != false)
         {
             Debug.Log("gay");
             GameObject enemy = collider.gameObject;
