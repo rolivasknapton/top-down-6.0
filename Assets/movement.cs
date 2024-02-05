@@ -7,17 +7,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float speed;
     private bool dashing =false;
+    public bool Dashing_Property => dashing;
     private float dashTime = .5f;
-
+    
+    //que idk if it will work
+    [SerializeField]
+    private bool dashQueue = false;
 
     private float rotationSpeed;
     private Vector2 currentDirectionFacing;
+    private Vector2 dodgeQueueDirection;
     private Quaternion directionFacing;
 
-    private void Start()
-    {
-        
-    }
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -29,7 +30,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (CanMove())
         {
+            //queue logic 
             
+
+
+
             transform.Translate(movementDirection * speed * inputMagnitude * Time.deltaTime, Space.World);
             
             if (movementDirection != Vector2.zero)
@@ -45,20 +50,38 @@ public class PlayerMovement : MonoBehaviour
             }
 
             //dashing implementation
-            if (Input.GetKeyUp(KeyCode.JoystickButton1))
-            {
-                
+            if (Input.GetKeyUp(KeyCode.JoystickButton1) ||dashQueue)
+            {                
                 currentDirectionFacing = movementDirection;
-                
+                if (dashQueue)
+                {
+                    currentDirectionFacing = dodgeQueueDirection;
+                }
                 StartCoroutine(Dashing());
                 this.GetComponent<Health>().iFrameActivation(dashTime);
-                
+                dashQueue = false;
             }
+           
         }
 
+        //more que logic
+        //if (CanMove() == false && Input.GetKeyUp(KeyCode.JoystickButton1))
+        //{
+        //    currentDirectionFacing = movementDirection;
+        //    dashQueue = true;
+        //}
+        if(CanMove() == false&& Input.GetKeyDown(KeyCode.JoystickButton1))
+        {
+            
+                dashQueue = true;
+            dodgeQueueDirection = movementDirection;
+            
+        }
         if (dashing)
         {
+
             Dash(currentDirectionFacing);
+           
 
         }
         
@@ -80,6 +103,10 @@ public class PlayerMovement : MonoBehaviour
         {
             canattack = false;
         }
+        if (this.GetComponent<Health>().Invulnerable)
+        {
+            canattack = false;
+        }
         return canattack;
        
     }
@@ -95,6 +122,7 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(dashTime);
         Debug.Log("no longer dashing");
         dashing = false;
+        
 
     }
     

@@ -90,10 +90,19 @@ public class Health : MonoBehaviour
             //this.GetComponent<CircleCollider2D>().enabled = false;
             this.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
             canAttack = false;
+            
         }
         if (this.gameObject.name == "Triangle")
         {
-            this.GetComponent<SpriteRenderer>().color = new Color(255, 255f, 255f, .5f);
+            if (this.GetComponent<PlayerMovement>().Dashing_Property)
+            {
+                this.GetComponent<SpriteRenderer>().color = new Color(255, 255f, 0f, .5f);
+            }
+            else
+            {
+                this.GetComponent<SpriteRenderer>().color = new Color(255, 0f, 0f, .5f);
+            }
+            
         }
         
         

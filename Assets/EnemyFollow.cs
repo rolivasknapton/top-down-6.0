@@ -57,7 +57,7 @@ public class EnemyFollow : MonoBehaviour
         }
         if (stunned)
         {
-            moveCharacter(attackDirection, 0.25f);
+            moveCharacter(attackDirection, 2.5f);
         }
 
     }

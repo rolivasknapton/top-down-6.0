@@ -24,6 +24,8 @@ public class PlayerAttack : MonoBehaviour
     public Transform playerposition;
     private bool canAttack;
 
+    private bool attackQueue =false;
+    public bool AttackQueue => attackQueue;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,12 +43,24 @@ public class PlayerAttack : MonoBehaviour
             Attack();
         }
         if (Input.GetKeyDown(KeyCode.JoystickButton0))
-        { 
+        {
+            if (this.GetComponent<PlayerMovement>().CanMove() == false)
+            {
+                attackQueue = true;
+            }
             if (this.GetComponent<PlayerMovement>().CanMove())
             {
                 Attack();
             }
+
             
+
+
+
+        }
+        if (this.GetComponent<PlayerMovement>().CanMove() && attackQueue)
+        {
+            Attack();
         }
 
         if (attacking)
@@ -70,11 +84,12 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack()
     {
-        if (attacking == false)
+        if (attacking == false && this.GetComponent<PlayerMovement>().CanMove())
         {
             Instantiate(sword_swipe, playerposition);
             //attackArea = transform.GetChild(0).gameObject;
             attacking = true;
+            attackQueue = false;
             //attackArea.SetActive(attacking);
             //focusedAttackArea.SetActive(attacking);
         }
