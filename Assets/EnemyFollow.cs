@@ -8,6 +8,7 @@ public class EnemyFollow : MonoBehaviour
     private float moveSpeed = 5f;
     private Rigidbody2D rb;
     private Vector2 movement;
+    public Vector2 EnemyMovement =>movement;
     [SerializeField]
     private bool canMove;
 
@@ -65,10 +66,18 @@ public class EnemyFollow : MonoBehaviour
     {
         Vector3 direction = player.position - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        rb.rotation = angle;
+
+        //code to interact with animation on asset
+        //SendDirectionToAnimator(direction.y, direction.x);
+
+        //rb.rotation = angle;
         direction.Normalize();
         movement = direction;
     }
+    //private void SendDirectionToAnimator(float y, float x)
+    //{
+    //    //this.GetComponent<DemoPlayer>().UpdateParams_byme(y, x);
+    //}
     void moveCharacter(Vector2 direction, float speed)
     {
         rb.MovePosition((Vector2)transform.position + (direction * speed * Time.deltaTime));
@@ -78,6 +87,8 @@ public class EnemyFollow : MonoBehaviour
         //stuns the enemy for an amount of time
         StartCoroutine(stunlocked(time));
 
+        
+
         //changes the appearance and the vulnerability for the same amount of time as is stunlocked
 
     }
@@ -85,6 +96,9 @@ public class EnemyFollow : MonoBehaviour
     {
         canMove = false;
         attackDirection = movement * -1;
+
+        
+        this.GetComponent<ScreenShaker>().Shake(attackDirection);
         stunned = true;
 
         yield return new WaitForSeconds(time);

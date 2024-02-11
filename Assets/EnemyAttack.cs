@@ -11,7 +11,7 @@ public class EnemyAttack : MonoBehaviour
         
         if (collider.gameObject.tag == "Player" && collider.GetComponentInParent<Health>().Invulnerable == false && this.GetComponentInParent<Health>().CanAttack != false)
         {
-            Debug.Log("gay");
+            //Debug.Log("gay");
             GameObject enemy = collider.gameObject;
             //target = collider.transform;
             Health health = collider.GetComponentInParent<Health>();
@@ -34,6 +34,9 @@ public class EnemyAttack : MonoBehaviour
             enemyhit.GetComponentInParent<EnemyFollow>().Damaged(time);
         }
         enemyhit.GetComponentInParent<Health>().iFrameActivation(time);
+        //enemyhit.GetComponentInParent<PlayerMovement>().PlayerKnockBack(time, enemyhit);
+        enemyhit.GetComponentInParent<PlayerMovement>().PlayerKnockBack(time, this.gameObject);
+
 
 
 

@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     private bool dashing =false;
     public bool Dashing_Property => dashing;
     private float dashTime = .5f;
+
+    private bool damagedFramesActive;
     
     //que idk if it will work
     [SerializeField]
@@ -19,6 +21,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 dodgeQueueDirection;
     private Quaternion directionFacing;
 
+
+    private Vector2 knockbackdirection;
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -50,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             //dashing implementation
-            if (Input.GetKeyUp(KeyCode.JoystickButton1) ||dashQueue)
+            if (Input.GetKeyUp(KeyCode.JoystickButton1) ||Input.GetKeyUp(KeyCode.Z) || dashQueue)
             {                
                 currentDirectionFacing = movementDirection;
                 if (dashQueue)
@@ -70,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
         //    currentDirectionFacing = movementDirection;
         //    dashQueue = true;
         //}
-        if(CanMove() == false&& Input.GetKeyDown(KeyCode.JoystickButton1))
+        if(CanMove() == false&& (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.Z)))
         {
             
                 dashQueue = true;
@@ -84,6 +88,12 @@ public class PlayerMovement : MonoBehaviour
            
 
         }
+        if (damagedFramesActive)
+        {
+            DamageMovement(knockbackdirection);
+        }
+        
+
         
         
         
@@ -92,25 +102,55 @@ public class PlayerMovement : MonoBehaviour
     public bool CanMove()
     {
         
-        bool canattack = true;
+        bool canattackormove = true;
 
 
         if (this.GetComponent<PlayerAttack>().Attacking == true)
         {
-            canattack = false;
+            canattackormove = false;
         }
         if (dashing == true)
         {
-            canattack = false;
+            canattackormove = false;
         }
         if (this.GetComponent<Health>().Invulnerable)
         {
-            canattack = false;
+            canattackormove = false;
+
         }
-        return canattack;
+        if (damagedFramesActive)
+        {
+            canattackormove = false;
+        }
+
+        return canattackormove;
        
     }
+
     
+    public void PlayerKnockBack(int time, GameObject attacker)
+    {
+        knockbackdirection = transform.position - attacker.transform.position;
+        //knockbackdirection.Normalize();
+        StartCoroutine(knock(time));
+        
+    }
+    private IEnumerator knock(int time)
+    {
+        damagedFramesActive = true;
+        
+        yield return new WaitForSeconds(time);
+        damagedFramesActive = false;
+        //knockbackdirection = default;
+       
+    }
+
+    private void DamageMovement(Vector2 knockbackdirection)
+    {
+        Debug.Log(knockbackdirection);
+        //Debug.Log(this.transform.position);
+        transform.Translate(knockbackdirection * 5  * Time.deltaTime, Space.World);
+    }
     public void Dash(Vector2 direction)
     {
         transform.Translate(direction * speed * 2 * Time.deltaTime, Space.World);
